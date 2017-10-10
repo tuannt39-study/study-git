@@ -1,0 +1,103 @@
+
+-----------------
+https://github.com/ninjacoderz/LargestRectangular
+
+thửa ruộng m . n
+
+x hố k . k
+
+Tìm a . b MAX
+
+(a.b) + x.k.k = m.n
+(a.b)=m.n - x.k.k
+
+(a.b) MAX thì x.k.k MIN
+
+-----------------
+EX 0:
+
+git init
+Tạo 1 kho chứa (repository) mới
+
+git status
+Hiện các thay đổi
+
+git add GIT.txt
+Theo dõi và tổ chức tệp (staged)
+
+git commit -m "first commit"
+Ghi chú các thay đổi
+
+-----------------
+EX 1:
+
+Ta có 1 repository:
+Thêm GIT1.txt - ghi chú "1 commit" - d3d1a
+Thêm GIT2.txt - ghi chú "2 commit" - 7a875
+Thêm GIT3.txt - ghi chú "3 commit" - 3cb82
+Thêm GIT4.txt - ghi chú "4 commit" - a84f8
+
+Mặc định là nhánh "master"
+git branch test
+hoặc
+git checkout -b test
+Sẽ tạo thêm 1 nhánh nữa tên là "test"
+Đây sẽ là repository mặc định để thực hiện các lệnh GIT
+git clone https://github.com/TUANNT39/GitTutorial.git
+Ta tiến hánh trên nhánh test
+
+CHECKOUT
+git checkout HEAD~2
+hoặc
+git checkout 7a875
+Không thay đổi gì sau khi thực hiện "4 commit" .
+Lùi HEAD về 2 commit (chuyển HEAD về commit 7a875), trên Working Directory chỉ còn lại 2 commit là d3d1a và 7a875, vẫn giữ ghi nhớ các commit sau, giống như việc ta có thể du hành không gian vậy, có thể trở về quá khứ rồi quay lại hiện tại.
+
+Thay đổi (nội dung) trong GIT2.txt
+git checkout -b test1
+Tạo nhánh test1 để lưu những thay đổi hiện tại trên Working Directory chỉ còn lại 2 commit
+git status
+Thông báo có sự thay đổi của GIT2.txt
+
+git checkout test
+Trở về nhánh test (hiện tại), trên Working Directory đầy đủ 4 commit như ban đầu
+git status
+Thông báo có sự thay đổi của GIT2.txt
+
+REVERT
+git revert HEAD~2
+hoặc
+git revert 7a875^
+Nhấn "i" hoặc "a" để chỉnh sửa, nhấn "ESC" rồi "Shift+z+z" để lưu và thoát.
+Tự tạo thêm 1 commit có ghi chú (Revert "2 commit"). Xóa những thay đổi của "2 commit" trên Working Directory
+Hiện tại trên Working Directory chỉ còn 3 tệp GIT1.txt, GIT3.txt, GIT4.txt với 5 commit
+
+git revert HEAD~2
+hoặc
+git revert 3cb82^
+Tự tạo thêm 1 commit có ghi chú (Revert "3 commit"). Xóa những thay đổi của "3 commit" trên Working Directory
+Hiện tại trên Working Directory chỉ còn 2 tệp GIT1.txt, GIT4.txt với 6 commit
+
+RESET
+git reset HEAD~1
+git reset --mixed HEAD~1
+Xóa 1 commit a84f8 mới nhất, vẫn giữ sự thay đổi chưa commit và của commit a84f8 trên Working Directory
+
+Thay đổi nội dung GIT3.txt, thêm GIT5.txt (unstage - chưa thực hiện git add)
+git reset --hard HEAD~1
+Xóa 1 commit a84f8 mới nhất, xóa sự thay đổi GIT3.txt, vẫn giữ GIT5.txt trên Working Directory
+
+Thay đổi nội dung GIT3.txt, thêm GIT5.txt (staged - đã thực hiện git add)
+git reset --hard HEAD~1
+Xóa 1 commit a84f8 mới nhất, xóa sự thay đổi GIT3.txt, xóa GIT5.txt trên Working Directory
+
+Thay đổi nội dung GIT3.txt, thêm GIT5.txt (unstage - chưa thực hiện git add)
+git reset --soft HEAD~1
+Xóa 1 commit a84f8 mới nhất, vẫn giữ sự thay đổi chưa commit và của commit a84f8, GIT4.txt (staged) trên Working Directory
+
+Thay đổi nội dung GIT3.txt, thêm GIT5.txt (staged - đã thực hiện git add)
+git reset --soft HEAD~1
+Xóa 1 commit a84f8 mới nhất, vẫn giữ sự thay đổi chưa commit và của commit a84f8 trên Working Directory
+
+-----------------
+

@@ -1,0 +1,160 @@
+cd ..
+mkdir GIT/
+
+PROGIT v1
+
+1 - CƠ BẢN
+
+QUY TRÌNH LÀM VIỆC
+Thư mục cục bộ gồm 3 "trees" được duy trì bởi git.
+Đầu tiên là thư mục đang làm việc (Working Directory) có chứa các tập tin hiện tại.
+Thứ hai là chỉ mục (Index) vai trò như staging area.
+Cuối cùng là (HEAD) trỏ đến commit gần đây nhất trên nhánh nội bộ mà bạn đang làm việc.
+
+BA TRẠNG THÁI
+Committed: dữ liệu đã được lưu trữ một cách an toàn
+Modified: các tệp đã thay đổi nhưng chưa commit
+Staged: Đánh dấu phiên bản hiện tại của 1 tệp đã chỉnh sửa trong commit tới
+
+2 - CÁC LỆNH THỰC HIỆN GIT
+
+CƠ BẢN
+git config --global user.name "tên tài khoản"
+git config --global user.email email@gmail.com
+git config --list |Kiểm tra cấu hình
+git init |Tạo 1 repository mới
+git status |Kiểm tra trạng thái - Hiển thị các thay đổi với commit mới nhất
+git log |Xem lịch sử commit
+
+CLONE
+git clone /đường-dẫn-đến/repository/ |Sao chép repository local
+git clone https://github.com/TUANNT39/GitTutorial.git |Sao chép repository remote
+git clone https://github.com/TUANNT39/GitTutorial.git GIT |Tạo thư mục chứa là GIT
+
+TRÌNH SOẠN THẢO
+git config --global core.editor emacs |Mặc định là Vi hoặc Vim, muốn sử dụng emacs
+
+TRỢ GIÚP
+git help <verb> |Ví dự: git help config
+git <verb> --help
+man git-<verb>
+
+OTHER
+gitk |git GUI tích hợp sẵn
+git config color.ui true |Sử dụng kết quả git với nhiều màu
+git config format.pretty oneline |Hiện log trên chỉ dùng mỗi commit
+
+UPDATE & MERGE
+git pull origin master |Cập nhật những thay đổi ở nhánh master trên repository remote
+git merge <nhánh> |Tích hợp thay đổi <nhánh> vào nhánh hiện tại
+git add . |Thêm những tệp đã tích hợp
+git diff <nhánh_hiện_tại> <nhánh> |Xem sự thay đổi khi tích hợp
+git config --global merge.tool vimdiff |Công cự so sánh thay đổi  kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, opendiff
+
+THAY THẾ THAY ĐỔI LOCAL
+git checkout -- <tên-tập-tin> |Thay thế những thay đổi trong "tree" đang làm việc với nội dung mới nhất của HEAD. Các thay đổi đã được thêm vào Index
+git checkout -- . Loại bỏ những thay đổi chưa git add. 
+git reset --hard origin/master |Hủy tất cả thay đổi với commit mới nhất
+git reset HEAD GIT.txt |Loại tệp trong staged
+
+ADD & DIFF & COMMIT
+git add GIT1.txt |Thêm tệp GIT1.txt (vào Index) - Theo dõi và tổ chức tệp (staged)
+git add . |Thêm tất cả tệp, thư mục (vào Index) - Theo dõi và tổ chức tệp (staged)
+git add -i |Thêm tập tin tương tác
+git diff |Xem thay đổi nhưng chưa staged
+git diff --cached |Xem những thông tin đã được staged
+git commit -m "ghi chú commit" |Ghi chú thay đổi đến HEAD
+git commit -a -m 'ghi chú commit' |Ghi chú thay đổi đến HEAD (cho phép bỏ qua git add)
+git add forgotten_file
+git commit --amend |Thực hiện 3 lệnh trên, kết quả chỉ là 1 commit, commit thứ 2 sẽ thay đổi các kết quả của commit đầu. Dùng cho trường hợp nếu như bạn thực hiện xong commit và rồi sau đó mới nhận ra rằng đã quên tổ chức các thay đổi trong tập tin bạn muốn để thêm vào commit đó
+cat .gitignore | 
+.[oa] |Git bỏ qua tất cả tệp có đuôi .o hoặc .a
+~ |Git bỏ qua những tệp tin có đuôi là dấu ~
+!lib.a |Nhưng theo dõi tập lib.a, mặc dù bạn đang bỏ qua tất cả tập tin .a ở trên
+/TODO |Chỉ bỏ qua tập TODO ở thư mục gốc, chứ không phải ở các thư mục con subdir/TODO
+build/ |Bỏ qua tất cả tập tin trong thư mục build/
+doc/*.txt |Bỏ qua doc/notes.txt, không phải doc/server/arch.txt
+doc/**/*.txt |Bỏ qua tất cả tập .txt trong thư mục doc/
+
+XÓA & ĐỔI TỆP
+git rm GIT.txt |Xóa tệp khỏi danh sách đc theo dõi, tổ chức. Khỏi Staged
+rm GIT.txt |Xóa tệp khỏi danh sách ko đc theo dõi, tổ chức. Khỏi Unstaged
+git rm --cached GIT.txt |Xóa tệp khỏi danh sách đc theo dõi, tổ chức. Khỏi Staged, nhưng vẫn giữ trên ổ cứng
+git mv GIT.txt GIT |Đổi tên tệp - Giống như việc xóa GIT.txt khỏi Staged, thêm GIT vào Staged
+
+REMOTES
+git remote -v |Xem máy chủ chứa repository
+git remote add pb git://github.com/paulboone/ticgit.git |Thêm máy chủ chứa repository tên pb
+git fetch origin |Lấy về (fetch) dữ liệu từ máy chủ tên origin
+git fetch pb |Lấy về (fetch) dữ liệu từ máy chủ tên pb
+git push [tên-máy-chủ] [tên-nhánh] |Đẩy dữ liệu lên máy chủ
+git push origin master |Đẩy dữ liệu nhánh master lên máy chủ origin
+git remote show [tên-trung-tâm] |Kiểm tra máy chủ
+git remote show origin |Kiểm tra máy chủ origin
+git remote rename pb paul |Đổi tên máy chủ pb thành paul
+git remote rm paul |Xóa máy chủ paul
+
+TAGGING
+git tag |Liệt kê các tag
+git tag -l 'v1.4.2.*' |Liệt kê các tag thuộc dải 1.4.2
+git tag -a v1.4 -m 'my version 1.4' |Tạo tag (annotated) mới v1.4
+git show v1.4 |Xem thông tin tag cùng commit được tag
+git tag -s v1.5 -m 'my signed 1.5 tag' |Tạo tag (signed) GNU Privacy Guard (GPG) mới v1.5
+git tag v1.4-lw |Tạo tag (Lightweight) mới v1.4
+git tag -v v1.4.2.1 |Sử dụng GPG xác minh, xác thực tag
+git tag -a v1.2 -m 'version 1.2' 9fceb02 |Tạo tag (annotated) mới v1.2, 9fceb02 là commit được tag
+git push origin v1.5 |Chia sẻ, đẩy lên repository remote tag v1.5
+git push origin --tags |Chia sẻ, đẩy lên repository remote nhiều tag
+
+3 - BRANCHING
+
+BRANCHES
+Mặc định là nhánh master
+git branch testing |Tạo nhánh mới tên testing
+git checkout testing |Chuyển (HEAD) sang nhánh testing
+
+Vẫn trên nhánh testing
+vim test.rb
+git commit -a -m 'made a change' |commit lên nhánh testing
+
+git checkout master |Chuyển (HEAD) sang nhánh master (Phục hồi lại các tệp trong thư mục làm việc mà nhánh master trỏ tới)
+vim test.rb
+git commit -a -m 'made a change' |Giờ lịch sử commit đã bị tách ra. Cả 2 nhánh đều cô lập riêng biệt với nhau.
+
+BASIC BRANCHING
+git checkout -b iss53 |Chuyển sáng nhánh mới iss53 
+git branch -d test |Xóa nhánh test
+
+REBASE
+Ví dụ bạn có 4 commit trong máy local của bạn (chưa push trên GitHub). Các commit của bạn trông thật vũng về và thiếu quyết đoán. Bạn có thể dùng lệnh rebase để gộp tất cả các commit lại với nhau thành một commit ngắn gọn, vắn tắt hơn.
+    git rebase -i HEAD~4
+Câu lệnh trên sẽ mở editor mặc định ở máy tính của bạn (thường là Vim), với nhiều cách lựa chọn cách bạn muốn thay đổi commit. Nó sẽ nhìn giống như phía dưới:
+    pick 130deo9 oldest commit message
+    pick 4209fei second oldest commit message
+    pick 4390gne third oldest commit message
+    pick bmo0dne newest commit message
+Để gộp tất cả các commit đó lại, chúng ta cần sửa “pick” thành “fixup” để hợp các commit và loại bỏ các commit messege. Chú ý là trong vim, bạn cần phải nhấn phím “a” hoặc “i” để có thể chỉnh sửa được văn bản, để save và thoát, bạn cần nhấn phím Esc rồi nhấn tổ hợp phím “shift + z + z”
+    pick 130deo9 oldest commit message
+    fixup 4209fei second oldest commit message
+    fixup 4390gne third oldest commit message
+    fixup bmo0dne newest commit message
+Câu lệnh này sẽ hợp nhất tất cả các commit của bạn thành một commit với messege là “oldest commit message”.
+Để thay đổi commit messege, bạn sử dụng amend
+    git commit –amend
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,176 @@
+
+B - 0
+
+https://git-scm.com/book/vi/v1
+https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud
+
+cd ..
+mkdir GIT/
+git init
+git status
+git add GIT1.txt
+git commit -m "first commit"
+git reset --hard
+git remote add origin https://github.com/TUANNT39/GitTutorial.git
+git pull origin master
+git fetch
+git push origin master
+
+BT: Ý nghia 4 command
+
+B - 1
+
+1.1 - CHIA SẺ REPOSITORY
+1.2 - MERGE
+
+git drirectory: thư mục .git
+staging area: những tệp đã được thêm, thay đổi chuẩn bị đưa vào commit
+working drirectory: thư mục vật lý trên máy
+
+Local Operation:
+git log --graph
+checkout: 
+git commit -m "3 commit"
+git checkout c328ac94cdabe835425a4d47ee1b3f0880497a57 |Lùi về commit đã thực hiện, xóa luôn tệp, thay đổi của các commit sau đó trên local, ko xóa những commit sau commit đó.
+git checkout master
+git reset HEAD~2 |Lùi về 2 commit trước đã thực hiện,vẫn giữ tệp, thay đổi của các commit sau đó trên local, xóa 2 commit sau.
+git revert HEAD~2
+git revert 3cb82d1f79f28472adac3578c971898ae0cda3b7 |Xóa những thay đổi của "3 commit" và tự tạo thêm 1 commit (Revert "3 commit")
+Nhấn "i" hoặc "a" để chỉnh sửa, nhấn "ESC" rồi "Shift+z+z" để lưu và thoát.
+
+BT: Ý nghĩa các command
+
+REVERT
+git revert [--[no-]edit] [-n] [-m parent-number] [-s] [-S[<keyid>]] <commit>…​
+git revert --continue
+git revert --quit
+git revert --abort
+
+CHECKOUT
+git checkout [-q] [-f] [-m] [<branch>]
+git checkout [-q] [-f] [-m] --detach [<branch>]
+git checkout [-q] [-f] [-m] [--detach] <commit>
+git checkout [-q] [-f] [-m] [[-b|-B|--orphan] <new_branch>] [<start_point>]
+git checkout [-f|--ours|--theirs|-m|--conflict=<style>] [<tree-ish>] [--] <paths>…​
+git checkout [-p|--patch] [<tree-ish>] [--] [<paths>…​]
+
+git checkout -b <branch> --track <remote>/<branch>
+
+git branch -f <branch> [<start point>]
+git checkout <branch>
+
+git branch -d test |Xóa nhánh test
+
+git branch test |Tạo nhánh test
+git checkout -b test1 |Tạo nhánh, chuyển HEAD sang nhánh test1
+git checkout test |Chuyển HEAD sang nhánh test
+git push origin test
+
+git checkout HEAD~2
+git checkout 7a875 |Lùi HEAD về 2 commit (về commit 7a875), xóa ghi chú, thay đổi của các commit sau nó trên Working Directory. Vẫn giữ ghi chú, thay đổi của các commit sau đó, ở 1 nơi nào đó (như kiểu trở về quá khứ vậy)
+git checkout -b test1 |Tạo nhánh test1 chứa những commit hiện tại trên working directory
+git checkout test |Trở về commit mới nhất trên nhánh test
+
+RESET
+git reset [-q] [<tree-ish>] [--] <paths>…​
+git reset (--patch | -p) [<tree-ish>] [--] [<paths>…​]
+git reset [--soft | --mixed [-N] | --hard | --merge | --keep] [-q] [<commit>]
+
+edit
+git add frotz.c filfre.c
+mailx
+git reset
+git pull git://info.example.com/ nitfol
+
+git commit ...
+git reset --soft HEAD^
+edit
+git commit -a -c ORIG_HEAD
+
+git branch topic/wip
+git reset --hard HEAD~3
+git checkout topic/wip
+
+git commit ...
+git reset --hard HEAD~3
+
+git reset --hard HEAD~1 |Trở lại 1 commit, lỡ commit rồi, xóa luôn chưa commit
+git reset --hard ORIG_HEAD
+git reset --soft HEAD~1 |Trở lại 1 commit, lỡ commit rồi, vẫn lưu những thay đổi chưa commit
+git reset file-name |Trở lại file cố định trước khi commit
+
+B - 2
+
+2 - BRANCH
+
+B - 3
+
+git clone https://github.com/TUANNT39/GitTutorial.git (4 commit)
+thay đổi
+git status
+git add .
+git commit -m "5 commit"
+git log (5 commit)
+git push origin master
+
+Thư mục khác
+git clone https://github.com/TUANNT39/GitTutorial.git (4 commit)
+thay đổi
+git status
+git add .
+git commit -m "5 commit lai"
+git log (có 5 commit)
+git push origin master (xung đột do trên remote đã có sự thay đổi mà trên local chưa có)
+git pull origin master (auto merging |MERGING)
+ta thay đổi trên local (Xóa các chú thích)
+git add .
+git commit -m "5 commit fix" (master)
+git push origin master (xong)
+git log (Tổng 7 commit gồm 4 commit đầu, 1 commit "5 commit", 1 commit "5 commit lai" và 1 commit "5 commit fix")
+
+git checkout -b develop |Tạo, chuyển sang nhánh develop
+git checkout master |Chuyển sang nhánh master
+git branch |Xem các nhánh
+git branch test |Tạo nhánh test
+git add .
+git push origin test
+git log (Nhánh test có đủ 7 commit giống nhánh master)
+
+git checkout test |Chuyển sang nhánh test
+git merge master |Tích hợp thay đổi nhánh master vào nhánh test (tự tạo 1 commit "merge into")
+
+git fetch |cập nhật repository
+
+Master: 8 commit
+Test: 7 commit
+git checkout test
+git merge master
+git push origin test
+git log |Nhánh test có 8 commit
+git checkout master
+git log |Nhánh test có 8 commit
+git push origin master
+-> cả 2 nhánh có 8 commit giống nhau
+
+Master: 9 commit
+Test: 8 commit
+git checkout test
+git rebase master
+git push origin test
+git checkout master
+git push origin master
+-> cả 2 nhánh có 9 commit giống nhau (rebase khi chỉ có 1 commit thay đổi)
+
+Master: 9 commit đầu, 1 commit khác
+Test: 9 commit đầu, 1 commit khác master
+Để thử MERGE thành công thì sẽ sinh ra commit mới, merge không thành công thì sẽ hiện conflic để ta tự chỉnh.
+
+Master: 10 commit đầu, 1 commit khác
+Test: 10 commit đầu, 1 commit khác master
+REBASE thành công thì sẽ tự thêm 1 commit khác ở nhánh kia vào nhanh hiện tại
+
+Luyện tập merge, rebase
+
+B - 4
+
+https://github.com/tonvantruongbk/PRJ_DEMO_GIT.git
